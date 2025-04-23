@@ -1,0 +1,24 @@
+{
+  "name": "runik",
+  "version": "1.0.0",
+  "description": "A web-based block-editor, with extensibility (themes and plugins)",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iskdevelop/runik.git"
+  },
+  "author": "Independent Society of Knowledge",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/iskdevelop/runik/issues"
+  },
+  "homepage": "https://github.com/iskdevelop/runik#readme",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
+  }
+}
