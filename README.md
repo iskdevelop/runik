@@ -1,2 +1,2 @@
-# Mithra-Editor
-A simple web-based block editor for Mithra and Koncept.
+# Runik
+Runik is a block based editor that let's content creation easy by providing gateways for plugins and themes. 
