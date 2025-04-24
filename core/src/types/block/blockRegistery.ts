@@ -12,3 +12,5 @@ import { Block } from "./block";
 export type BlockFromRegistry<BlockTypeRegistry extends Record<string, any>> = {
   [K in keyof BlockTypeRegistry & string]: Block<K, BlockTypeRegistry[K]>;
 }[keyof BlockTypeRegistry & string];
+
+

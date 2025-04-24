@@ -1,3 +1,4 @@
+import {BlockFromRegistry} from "./blockRegistery";
 
 /**
  * Extracts the valid block type names from a block type registry.
