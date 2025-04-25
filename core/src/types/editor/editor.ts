@@ -103,6 +103,24 @@ export class Editor<BlockTypeRegistry extends Record<string, any>> {
     }
 
     /**
+     * Renders a specific block by its ID.
+     *
+     * @param blockId
+     */
+    renderBlock(blockId: number): HTMLElement {
+        if (blockId < 0 || blockId >= this.blocks.length) {
+            throw new Error(`Block ID ${blockId} is out of bounds.`);
+        }
+        const block = this.blocks[blockId];
+        const renderer = this.configuration.visualRenderer.renderers[block.type];
+        if (renderer) {
+            return renderer(block.data);
+        } else {
+            throw new Error(`No renderer found for block type "${String(block.type)}".`);
+        }
+    }
+
+    /**
      * Retrieves the blocks managed by the editor.
      *
      * @returns An array of blocks, each with a type and associated data.
