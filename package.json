@@ -1,6 +1,6 @@
 {
-  "name": "runik",
-  "version": "1.0.0",
+  "name": "@iskportal/runik",
+  "version": "1.0.2",
   "description": "A web-based block-editor, with extensibility (themes and plugins)",
   "main": "index.js",
   "scripts": {
