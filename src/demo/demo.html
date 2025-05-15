@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Runik Demo</title>
+    <link rel="stylesheet" href="../styles/runik.css">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            color: #333;
+        }
+        h1 {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .controls {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f7f7f7;
+            border-radius: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background: #3a80d2;
+        }
+        #editor-container {
+            border: 1px solid #ddd;
+            min-height: 300px;
+            border-radius: 5px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Runik Block Editor Demo</h1>
+    
+    <div class="controls">
+        <button id="add-heading">Add Heading</button>
+        <button id="add-paragraph">Add Paragraph</button>
+        <button id="add-image">Add Image</button>
+        <button id="add-code">Add Code</button>
+        <button id="clear-all">Clear Editor</button>
+    </div>
+    
+    <div id="editor-container"></div>
+
+    <script type="module">
+        import { Editor } from '../dist/index.js';
+        
+        // Define block types for our demo
+        const blockTypes = {
+            heading: { text: "New Heading" },
+            paragraph: { text: "New paragraph text" },
+            image: { url: "", alt: "", caption: "" },
+            code: { code: "", language: "javascript" }
+        };
+        
+        // Configure renderers for each block type
+        const renderers = {
+            heading: (data) => {
+                const el = document.createElement('h2');
+                el.textContent = data.text;
+                return el;
+            },
+            paragraph: (data) => {
+                const el = document.createElement('p');
+                el.textContent = data.text;
+                return el;
+            },
+            image: (data) => {
+                const container = document.createElement('div');
+                const img = document.createElement('img');
+                img.src = data.url || 'https://via.placeholder.com/800x400?text=Placeholder+Image';
+                img.alt = data.alt || '';
+                img.style.maxWidth = '100%';
+                container.appendChild(img);
+                if (data.caption) {
+                    const caption = document.createElement('figcaption');
+                    caption.textContent = data.caption;
+                    container.appendChild(caption);
+                }
+                return container;
+            },
+            code: (data) => {
+                const container = document.createElement('div');
+                container.className = 'code-block';
+                
+                const pre = document.createElement('pre');
+                const code = document.createElement('code');
+                code.textContent = data.code;
+                if (data.language) {
+                    code.className = `language-${data.language}`;
+                }
+                pre.appendChild(code);
+                container.appendChild(pre);
+                
+                return container;
+            }
+        };
+        
+        // Create editor configuration
+        const editorConfig = {
+            blockTypes, 
+            visualRenderer: { renderers }
+        };
+        
+        // Create editor instance
+        const editor = new Editor(editorConfig);
+        const container = document.getElementById('editor-container');
+        
+        // Helper function to update the UI with editor content
+        function updateUI() {
+            container.innerHTML = '';
+            container.appendChild(editor.render());
+        }
+        
+        // Add event listeners for buttons
+        document.getElementById('add-heading').addEventListener('click', () => {
+            const text = prompt('Enter heading text:', 'New Heading');
+            if (text) {
+                editor.addBlock('heading', { text });
+                updateUI();
+            }
+        });
+        
+        document.getElementById('add-paragraph').addEventListener('click', () => {
+            const text = prompt('Enter paragraph text:', 'New paragraph text');
+            if (text) {
+                editor.addBlock('paragraph', { text });
+                updateUI();
+            }
+        });
+        
+        document.getElementById('add-image').addEventListener('click', () => {
+            const url = prompt('Enter image URL:', 'https://source.unsplash.com/random/800x400?nature');
+            if (url) {
+                const alt = prompt('Enter alt text:', '');
+                const caption = prompt('Enter caption (optional):', '');
+                editor.addBlock('image', { url, alt, caption });
+                updateUI();
+            }
+        });
+        
+        document.getElementById('add-code').addEventListener('click', () => {
+            const code = prompt('Enter code:', 'function helloWorld() {\n  console.log("Hello, world!");\n}');
+            if (code) {
+                const language = prompt('Enter language (e.g., javascript, python):', 'javascript');
+                editor.addBlock('code', { code, language });
+                updateUI();
+            }
+        });
+        
+        document.getElementById('clear-all').addEventListener('click', () => {
+            if (confirm('Are you sure you want to clear all blocks?')) {
+                editor.clearBlocks();
+                updateUI();
+            }
+        });
+        
+        // Initialize with a welcome message
+        editor.addBlock('heading', { text: 'Welcome to Runik' });
+        editor.addBlock('paragraph', { 
+            text: 'This is a simple demonstration of the Runik block editor. Use the buttons above to add different types of content blocks.' 
+        });
+        
+        // Initial render
+        updateUI();
+    </script>
+</body>
+</html>

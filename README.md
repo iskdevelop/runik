@@ -8,6 +8,11 @@ Runik is a web-based block editor designed to simplify content creation by provi
 - **Extensibility**: Add custom plugins and themes to enhance functionality and appearance.
 - **Customizable Renderers**: Define how each block type is visually rendered using custom renderers.
 - **Type Safety**: Built with TypeScript, ensuring type safety for block data and configurations.
+- **UI Controls**: Built-in controls for moving, editing, and deleting blocks.
+- **Drag and Drop**: Intuitive drag and drop interface for rearranging blocks.
+- **Keyboard Navigation**: Navigate and manage blocks using keyboard shortcuts.
+
+## Installation
 - **Reordering and Management**: Add, remove, rearrange, and clear blocks with ease.
 - **Rendering**: Render blocks into HTML elements for seamless integration into web applications.
 

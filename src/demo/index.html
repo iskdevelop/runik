@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Runik Editor Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .runik-editor-container {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .runik-block-wrapper {
+      position: relative;
+      margin-bottom: 15px;
+      padding: 15px;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .runik-block-wrapper:hover {
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .runik-block-selected {
+      box-shadow: 0 0 0 2px #4a90e2 !important;
+    }
+
+    .runik-block-controls {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      display: flex;
+      gap: 5px;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
+
+    .runik-block-wrapper:hover .runik-block-controls {
+      opacity: 1;
+    }
+
+    .runik-control-button {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 14px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .runik-control-button:hover {
+      background-color: #f5f5f5;
+      border-color: #bbb;
+    }
+
+    .runik-dragging {
+      opacity: 0.5;
+    }
+
+    .runik-drag-over {
+      border: 2px dashed #4a90e2;
+    }
+
+    .toolbar {
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-radius: 4px;
+    }
+
+    button {
+      padding: 8px 12px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+
+    button:hover {
+      background-color: #357ae8;
+    }
+  </style>
+</head>
+<body>
+  <h1>Runik Editor Demo</h1>
+  <p>This is a demonstration of the Runik editor with the RunikUI wrapper.</p>
+
+  <div class="toolbar">
+    <button id="add-text-block">Add Text Block</button>
+    <button id="add-image-block">Add Image Block</button>
+    <button id="clear-blocks">Clear All Blocks</button>
+  </div>
+
+  <div id="editor-container"></div>
+
+  <script type="module">
+    // Import directly from the compiled TypeScript files
+    // In a real project, you would use the package's entry point
+    import { RunikUI } from '../dist/ui/runikUI.js';
+    import { EditorConfiguration } from '../dist/types/editor/editorConfiguration.js';
+
+    // Define block types
+    const blockTypes = {
+      text: { content: "Default text" },
+      image: { url: "", alt: "Default image" }
+    };
+
+    // Define renderers
+    const renderers = {
+      text: (data) => {
+        const p = document.createElement('p');
+        p.textContent = data.content;
+        return p;
+      },
+      image: (data) => {
+        const img = document.createElement('img');
+        img.src = data.url || 'https://via.placeholder.com/300x150?text=Placeholder+Image';
+        img.alt = data.alt || 'Image';
+        img.style.maxWidth = '100%';
+        return img;
+      }
+    };
+
+    // Create editor configuration
+    const editorConfiguration = {
+      blockTypes,
+      visualRenderer: {
+        renderers
+      }
+    };
+
+    // Initialize RunikUI with the container and configuration
+    const editorContainer = document.getElementById('editor-container');
+    const runikUI = new RunikUI(editorConfiguration, editorContainer, {
+      enableDragAndDrop: true,
+      enableKeyboardNavigation: true
+    });
+
+    // Initialize with some example blocks
+    runikUI.addBlock('text', { content: 'Welcome to the Runik editor demo!' });
+    runikUI.addBlock('text', { content: 'This block editor allows you to create, edit, and rearrange blocks of content.' });
+    runikUI.addBlock('image', { 
+      url: 'https://via.placeholder.com/600x200/4a90e2/ffffff?text=Runik+Block+Editor', 
+      alt: 'Runik Block Editor Banner' 
+    });
+    runikUI.addBlock('text', { content: 'Try using the controls to edit blocks, move them up and down, or delete them.' });
+    runikUI.addBlock('text', { content: 'You can also drag and drop blocks to reorder them!' });
+
+    // Render the editor
+    runikUI.render();
+
+    // Set up toolbar button actions
+    document.getElementById('add-text-block').addEventListener('click', () => {
+      const content = prompt('Enter text content:', 'New text block');
+      if (content) {
+        runikUI.addBlock('text', { content });
+      }
+    });
+
+    document.getElementById('add-image-block').addEventListener('click', () => {
+      const url = prompt('Enter image URL:', 'https://via.placeholder.com/300x150');
+      const alt = prompt('Enter image alt text:', 'Image description');
+      if (url) {
+        runikUI.addBlock('image', { url, alt: alt || '' });
+      }
+    });
+
+    document.getElementById('clear-blocks').addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all blocks?')) {
+        runikUI.clearBlocks();
+      }
+    });
+
+    // Log initial blocks to console for debugging
+    console.log('Initial blocks:', runikUI.getBlocks());
+  </script>
+</body>
+</html>
