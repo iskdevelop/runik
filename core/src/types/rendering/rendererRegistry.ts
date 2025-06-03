@@ -1,4 +1,4 @@
-import {BlockTypeRegistry} from "./blockTypeRegistry";
+import {BlockTypeRegistry} from "../block/blockTypeRegistry";
 
 /**
  * Registry that maps block types to their corresponding renderer functions.

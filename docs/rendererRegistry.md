@@ -24,8 +24,6 @@ export type RendererRegistry<U> = {
 ### Example
 
 ```tsx
-import { RendererRegistry } from "./rendererRegistry";
-
 const renderers: RendererRegistry<JSX.Element> = {
   paragraph: (data) => <p>{data.content}</p>,
   image: (data) => <img src={data.src} alt={data.alt} width={data.width} />,
