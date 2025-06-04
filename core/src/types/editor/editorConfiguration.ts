@@ -27,11 +27,31 @@ export type EditorConfiguration<
     U,
     T extends Record<string, any> = BlockTypeRegistry
 > = {
-    [K in keyof T]: {
-        validator: (data: T[K]) => boolean;
-        renderer: RendererRegistry<U, T>[K];
-        metadata?: Record<string, any>;
-        hooks?: Record<string, (...args: any[]) => any>;
-        [key: string]: any;
+    mutations: {
+        [key: string]: (...args: any[]) => void
     }
+    blocks:{
+        [K in keyof T]: {
+            validator: (data: T[K]) => boolean;
+            renderer: RendererRegistry<U, T>[K];
+            // metadata?: Record<string, any>;
+            // hooks?: Record<string, (...args: any[]) => any>;
+            // [key: string]: any;
+            // isDefault?: boolean;
+            // hint?: string;
+            //
+            // onEdit?: (...args: any[]) => any
+            // preRender?: (...args: any[])=> any
+            // postRender?: (...args: any[])=> any
+        }
+    }
+    // plugins:{
+    //     // To be written
+    //     [key: string]: any
+    // },
+    // themes: {
+    //     // To be written
+    //     [key: string]: any
+    // }
 }
+
