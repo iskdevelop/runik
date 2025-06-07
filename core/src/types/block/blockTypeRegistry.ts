@@ -1,16 +1,19 @@
 /**
- * Registry that holds block types and their associated data models.
- * Each key represents a unique block type identifier, and the value contains
- * the corresponding data structure or configuration for that block type.
- * 
+ * BlockTypeRegistry is a mapping of string keys to block type definitions.
+ *
+ * It serves as a registry where each key represents the name or ID of a block type
+ * (e.g., "paragraph", "image", "code"), and the value is the associated configuration
+ * or class/functionality for that block.
+ *
+ * This is used internally in Runik to register and access custom block types.
+ *
  * @example
- * const blockTypes: BlockTypeRegistry = {
- *   paragraph: { text: string, formatting: object },
- *   image: { src: string, alt: string, width: number },
- *   button: { label: string, onClick: Function }
- * }
+ * const blocks: BlockTypeRegistry = {
+ *   paragraph: ParagraphBlock,
+ *   image: ImageBlock,
+ *   code: CodeBlock
+ * };
  */
 export type BlockTypeRegistry = {
     [key: string]: any
 }
-
