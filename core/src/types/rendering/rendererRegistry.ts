@@ -1,18 +1,18 @@
 import {BlockTypeRegistry} from "../block/blockTypeRegistry";
 
 /**
- * Registry that maps block types to their corresponding renderer functions.
- * Keys are constrained to match those defined in BlockTypeRegistry, ensuring
- * each block type has a matching renderer with proper type safety.
+ * RendererRegistry is a type that maps block types to renderer functions.
  *
- * @typeParam U - The return type of each renderer function (e.g., JSX.Element, string).
- * @typeParam T - Block type registry of choice
+ * It defines how each block type in the BlockTypeRegistry should be rendered by associating
+ * each block with a function that takes its data and returns a rendered output of type U.
+ *
+ * @template U - The output type of each renderer function (e.g., JSX.Element, HTML string, VNode).
+ * @template T - The input block registry; defaults to BlockTypeRegistry.
  *
  * @example
- * const renderers: RendererRegistry<JSX.Element, MyBlockRegistry> = {
+ * const renderers: RendererRegistry<JSX.Element> = {
  *   paragraph: (data) => <p>{data.text}</p>,
- *   image: (data) => <img src={data.src} alt={data.alt} />,
- *   button: (data) => <button onClick={data.onClick}>{data.label}</button>
+ *   image: (data) => <img src={data.url} alt={data.alt} />,
  * };
  */
 export type RendererRegistry<
